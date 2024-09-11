@@ -10,13 +10,13 @@ export default function App() {
 
   const addTask = () => {
     if (task.trim()) {
-      setTasks([...tasks, { key: Math.random().toString(), value: task }]);
+      setTasks([...tasks, { key: Math.random().toString(), value: task, completed: false }]);
       setTask('');
     }
   };
 
   const editTask = () => {
-    setTasks(tasks.map(t => t.key === editingKey ? { key: editingKey, value: task } : t));
+    setTasks(tasks.map(t => t.key === editingKey ? { ...t, value: task } : t));
     setTask('');
     setIsEditing(false);
     setEditingKey(null);
@@ -37,10 +37,14 @@ export default function App() {
     }
   };
 
+  const completeTask = (taskKey) => {
+    setTasks(tasks.map(t => t.key === taskKey ? { ...t, completed: !t.completed } : t));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>FELICITAS-REDOBLE TODO LIST</Text>
+        <Text style={styles.title}>FELICITAS REDOBLE TODO LIST</Text>
       </View>
       <TextInput
         style={styles.input}
@@ -61,9 +65,12 @@ export default function App() {
         data={tasks}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <View style={styles.listItem}>
-            <Text style={styles.taskText}>{item.value}</Text>
+          <View style={[styles.listItem, item.completed && styles.completedTask]}>
+            <Text style={[styles.taskText, item.completed && styles.completedTaskText]}>{item.value}</Text>
             <View style={styles.buttonGroup}>
+              <TouchableOpacity onPress={() => completeTask(item.key)}>
+                <Text style={styles.completeButton}>{item.completed ? "Undo" : "Complete"}</Text>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => startEditing(item.key, item.value)}>
                 <Text style={styles.editButton}>Edit</Text>
               </TouchableOpacity>
@@ -88,7 +95,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   titleContainer: {
-    backgroundColor: '#4CAF50', // Background color
+    backgroundColor: '#4CAF50',
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -155,12 +162,20 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
+  completedTask: {
+    backgroundColor: '#e0ffe0',
+  },
+  completedTaskText: {
+    textDecorationLine: 'line-through',
+    color: '#888',
+  },
   buttonGroup: {
     flexDirection: 'row',
   },
-  taskText: {
-    fontSize: 16,
-    color: '#333',
+  completeButton: {
+    color: '#007bff',
+    fontWeight: '600',
+    marginRight: 15,
   },
   editButton: {
     color: '#007bff',
