@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "todoappfelicitasredoble",
-    "slug": "todoappfelicitasredoble",
+    "slug": "todo-app-redoble-felicitas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,6 +19,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "25c65514-c908-4dd2-a043-706aa0928a1e"
+      }
+    },
+    "owner": "gnegr"
   }
-}
 }
