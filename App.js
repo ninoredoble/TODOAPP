@@ -55,12 +55,12 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>FELICITAS REDOBLE TODO LIST</Text>
+        <Text style={styles.title}>REDOBLE-FELICITAS TO DO LIST</Text>
       </View>
       <TextInput
         style={styles.input}
         placeholder="Enter a task"
-        placeholderTextColor="#6C757D"
+        placeholderTextColor="lightgray" // Placeholder text color
         value={task}
         onChangeText={setTask}
       />
@@ -120,17 +120,17 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#EEF7FF', // Background color for the app
     paddingTop: 50,
     paddingHorizontal: 20,
   },
   titleContainer: {
-    backgroundColor: '#007BFF',
+    backgroundColor: 'steelblue', // Color for the title background
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
     marginBottom: 20,
-    shadowColor: '#000',
+    shadowColor: 'gray',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 6,
@@ -138,25 +138,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 23,
     fontWeight: 'bold',
-    color: '#F8F9FA',
+    color: 'white', // Color for the title text
     textAlign: 'center',
   },
   input: {
     padding: 12,
-    borderColor: '#007BFF',
+    borderColor: 'steelblue', // Border color for the input
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: 'white', // Background color for the input
   },
   button: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: 'gray',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -164,11 +164,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   addButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: 'steelblue', // Color for the add button
   },
   buttonText: {
-    color: '#F8F9FA',
-    fontSize: 14, // Lowered font size for buttons
+    color: 'white', // Color for button text
+    fontSize: 13, // Font size for buttons
     fontWeight: '600',
   },
   list: {
@@ -176,25 +176,25 @@ const styles = StyleSheet.create({
   },
   listItem: {
     padding: 15,
-    backgroundColor: '#F5F5F5',
-    borderColor: '#E0E0E0',
-    borderWidth: 1,
+    backgroundColor: '#F8EDED', // Background color for list items
+    borderColor: 'lightgray',
+    borderWidth: 2,
     borderRadius: 8,
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: 'gray',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   completedTask: {
-    backgroundColor: '#28A745',
+    backgroundColor: '#D5ED9F', // Background color for completed tasks
   },
   completedTaskText: {
     textDecorationLine: 'line-through',
-    color: '#F8F9FA',
+    color: 'gray', // Text color for completed tasks
   },
   importanceButtons: {
     flexDirection: 'column',
@@ -202,16 +202,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   importanceButton: {
-    padding: 4,
+    padding: 2,
+    paddingRight: 4,
     borderRadius: 4,
-    backgroundColor: '#E0E0E0',
     marginVertical: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },
   importanceText: {
-    fontSize: 16,
-    color: '#007BFF',
+    fontSize: 14,
+    color: 'steelblue', // Color for importance button text
   },
   taskContainer: {
     flex: 1,
@@ -221,26 +221,26 @@ const styles = StyleSheet.create({
   },
   taskText: {
     flex: 1,
-    fontSize: 16,
-    color: '#212529',
+    fontSize: 14,
+    color: 'black', // Color for task text
   },
   buttonGroup: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   finishedButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: '#97BE5A', // Accent color for finished button
   },
   unfinishedButton: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#EE4E4E', // Background color for unfinished button
   },
   editButton: {
-    color: '#007BFF',
+    color: 'steelblue', // Color for edit button text
     fontWeight: '600',
     marginHorizontal: 10,
   },
   removeButton: {
-    color: '#DC3545',
+    color: 'red', // Color for remove button text
     fontWeight: '600',
     marginHorizontal: 10,
   },
