@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
 
 export default function App() {
   const [task, setTask] = useState('');
@@ -43,17 +43,24 @@ export default function App() {
       <TextInput
         style={styles.input}
         placeholder="Enter a task"
+        placeholderTextColor="#aaa"
         value={task}
         onChangeText={setTask}
       />
-      <Button title={isEditing ? "Edit Task" : "Add Task"} onPress={isEditing ? editTask : addTask} />
+      <TouchableOpacity
+        style={[styles.button, styles.addButton]}
+        onPress={isEditing ? editTask : addTask}
+      >
+        <Text style={styles.buttonText}>{isEditing ? "Edit Task" : "Add Task"}</Text>
+      </TouchableOpacity>
 
       <FlatList
         style={styles.list}
         data={tasks}
+        keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <View style={styles.listItem}>
-            <Text>{item.value}</Text>
+            <Text style={styles.taskText}>{item.value}</Text>
             <View style={styles.buttonGroup}>
               <TouchableOpacity onPress={() => startEditing(item.key, item.value)}>
                 <Text style={styles.editButton}>Edit</Text>
@@ -74,22 +81,43 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f0f2f5',
     paddingTop: 50,
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: '600',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#333',
   },
   input: {
-    padding: 10,
-    borderColor: '#ccc',
+    padding: 12,
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
+    borderRadius: 8,
+    marginBottom: 15,
+    backgroundColor: '#fff',
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  addButton: {
+    backgroundColor: '#4CAF50',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   list: {
     marginTop: 20,
@@ -97,24 +125,33 @@ const styles = StyleSheet.create({
   listItem: {
     padding: 15,
     backgroundColor: '#fff',
-    borderColor: '#ccc',
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 8,
     marginBottom: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   buttonGroup: {
     flexDirection: 'row',
   },
+  taskText: {
+    fontSize: 16,
+    color: '#333',
+  },
   editButton: {
     color: '#007bff',
-    fontWeight: 'bold',
+    fontWeight: '600',
     marginRight: 15,
   },
   removeButton: {
     color: '#dc3545',
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });
