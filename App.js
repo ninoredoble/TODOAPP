@@ -10,7 +10,7 @@ export default function App() {
 
   const addTask = () => {
     if (task.trim()) {
-      setTasks([...tasks, { key: Math.random().toString(), value: task, completed: false }]);
+      setTasks([...tasks, { key: Math.random().toString(), value: task, completed: false, importance: 0 }]);
       setTask('');
     }
   };
@@ -41,6 +41,17 @@ export default function App() {
     setTasks(tasks.map(t => t.key === taskKey ? { ...t, completed: !t.completed } : t));
   };
 
+  const increaseImportance = (taskKey) => {
+    setTasks(tasks.map(t => t.key === taskKey ? { ...t, importance: t.importance + 1 } : t));
+  };
+
+  const decreaseImportance = (taskKey) => {
+    setTasks(tasks.map(t => t.key === taskKey ? { ...t, importance: Math.max(t.importance - 1, 0) } : t));
+  };
+
+  // Sort tasks by importance (descending) before rendering
+  const sortedTasks = [...tasks].sort((a, b) => b.importance - a.importance);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -49,7 +60,7 @@ export default function App() {
       <TextInput
         style={styles.input}
         placeholder="Enter a task"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#6C757D"
         value={task}
         onChangeText={setTask}
       />
@@ -62,21 +73,40 @@ export default function App() {
 
       <FlatList
         style={styles.list}
-        data={tasks}
+        data={sortedTasks}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <View style={[styles.listItem, item.completed && styles.completedTask]}>
-            <Text style={[styles.taskText, item.completed && styles.completedTaskText]}>{item.value}</Text>
-            <View style={styles.buttonGroup}>
-              <TouchableOpacity onPress={() => completeTask(item.key)}>
-                <Text style={styles.completeButton}>{item.completed ? "Undo" : "Complete"}</Text>
+            <View style={styles.importanceButtons}>
+              <TouchableOpacity
+                style={styles.importanceButton}
+                onPress={() => increaseImportance(item.key)}
+              >
+                <Text style={styles.importanceText}>⬆️</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => startEditing(item.key, item.value)}>
-                <Text style={styles.editButton}>Edit</Text>
+              <TouchableOpacity
+                style={styles.importanceButton}
+                onPress={() => decreaseImportance(item.key)}
+              >
+                <Text style={styles.importanceText}>⬇️</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => removeTask(item.key)}>
-                <Text style={styles.removeButton}>Remove</Text>
-              </TouchableOpacity>
+            </View>
+            <View style={styles.taskContainer}>
+              <Text style={[styles.taskText, item.completed && styles.completedTaskText]}>{item.value}</Text>
+              <View style={styles.buttonGroup}>
+                <TouchableOpacity
+                  style={[styles.button, item.completed ? styles.finishedButton : styles.unfinishedButton]}
+                  onPress={() => completeTask(item.key)}
+                >
+                  <Text style={styles.buttonText}>{item.completed ? "Finished" : "Unfinished"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => startEditing(item.key, item.value)}>
+                  <Text style={[styles.buttonText, styles.editButton]}>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => removeTask(item.key)}>
+                  <Text style={[styles.buttonText, styles.removeButton]}>Remove</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         )}
@@ -90,57 +120,55 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f2f5',
+    backgroundColor: '#F8F9FA',
     paddingTop: 50,
     paddingHorizontal: 20,
   },
   titleContainer: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#007BFF',
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 4,
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
-    textShadowColor: '#000',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
+    color: '#F8F9FA',
     textAlign: 'center',
   },
   input: {
     padding: 12,
-    borderColor: '#ddd',
+    borderColor: '#007BFF',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5',
   },
   button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 8,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+    elevation: 2,
+    marginHorizontal: 4,
   },
   addButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#007BFF',
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: '#F8F9FA',
+    fontSize: 14, // Lowered font size for buttons
     fontWeight: '600',
   },
   list: {
@@ -148,13 +176,12 @@ const styles = StyleSheet.create({
   },
   listItem: {
     padding: 15,
-    backgroundColor: '#fff',
-    borderColor: '#ddd',
+    backgroundColor: '#F5F5F5',
+    borderColor: '#E0E0E0',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -163,27 +190,58 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   completedTask: {
-    backgroundColor: '#e0ffe0',
+    backgroundColor: '#28A745',
   },
   completedTaskText: {
     textDecorationLine: 'line-through',
-    color: '#888',
+    color: '#F8F9FA',
+  },
+  importanceButtons: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  importanceButton: {
+    padding: 4,
+    borderRadius: 4,
+    backgroundColor: '#E0E0E0',
+    marginVertical: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  importanceText: {
+    fontSize: 16,
+    color: '#007BFF',
+  },
+  taskContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  taskText: {
+    flex: 1,
+    fontSize: 16,
+    color: '#212529',
   },
   buttonGroup: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  completeButton: {
-    color: '#007bff',
-    fontWeight: '600',
-    marginRight: 15,
+  finishedButton: {
+    backgroundColor: '#007BFF',
+  },
+  unfinishedButton: {
+    backgroundColor: '#F5F5F5',
   },
   editButton: {
-    color: '#007bff',
+    color: '#007BFF',
     fontWeight: '600',
-    marginRight: 15,
+    marginHorizontal: 10,
   },
   removeButton: {
-    color: '#dc3545',
+    color: '#DC3545',
     fontWeight: '600',
+    marginHorizontal: 10,
   },
 });
