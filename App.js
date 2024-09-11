@@ -39,7 +39,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>FELICITAS REDOBLE TODO LIST</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>FELICITAS-REDOBLE TODO LIST</Text>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Enter a task"
@@ -85,12 +87,27 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 20,
   },
+  titleContainer: {
+    backgroundColor: '#4CAF50', // Background color
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+    alignItems: 'center',
+  },
   title: {
     fontSize: 28,
-    fontWeight: '600',
-    marginBottom: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
     textAlign: 'center',
-    color: '#333',
   },
   input: {
     padding: 12,
