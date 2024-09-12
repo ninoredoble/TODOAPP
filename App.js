@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    padding: 12,
+    padding: 12,  
     borderColor: 'steelblue',
     borderWidth: 1,
     borderRadius: 8,
@@ -273,10 +273,13 @@ const styles = StyleSheet.create({
   },
   taskText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 15,
     color: 'black',
-  },
-  buttonGroup: {
+    textShadowColor: 'rgba(0, 0, 0, 0.25)',
+    textShadowOffset: { width: 2, height: 2},
+    textShadowRadius: 2,
+  },  
+  buttonGroup: {  
     flexDirection: 'row',
     alignItems: 'center',
   },
