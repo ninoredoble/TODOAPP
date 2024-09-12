@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import search icon from vector icons
 
 export default function App() {
@@ -76,8 +76,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>REDOBLE-FELICITAS TO DO LIST</Text>
+          <Text style={styles.title}>REDOBLE-FELICITAS TO DO LIST</Text>
+        </View>
+        <Image source={require('/Users/gratzel/Documents/GITPROJECTS/TODOAPP/img/logo.png')} style={styles.logo} />
       </View>
       <TextInput
         style={styles.input}
@@ -156,7 +159,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEF7FF',
     paddingTop: 50,
     paddingHorizontal: 20,
-    justifyContent: 'space-between', // Adjust this to space elements correctly
+    justifyContent: 'space-between',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 20,
   },
   titleContainer: {
     backgroundColor: 'steelblue',
@@ -176,6 +183,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
+  },
+  logo: {
+    width: 150, 
+    height: 100, 
+    marginBottom: 5,
   },
   input: {
     padding: 12,  
@@ -298,5 +310,5 @@ const styles = StyleSheet.create({
     color: 'red',
     fontWeight: '600',
     marginHorizontal: 10,
-  },
+  },  
 });
