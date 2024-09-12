@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons'; // Import search icon from vector icons
 
 export default function App() {
   const [task, setTask] = useState('');
@@ -91,14 +92,6 @@ export default function App() {
       >
         <Text style={styles.buttonText}>{isEditing ? "Edit Task" : "Add Task"}</Text>
       </TouchableOpacity>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Search tasks"
-        placeholderTextColor="lightgray"
-        value={search}
-        onChangeText={handleSearch}
-      />
 
       <FlatList
         style={styles.list}
@@ -141,6 +134,17 @@ export default function App() {
         )}
       />
 
+      <View style={styles.searchContainer}>
+        <MaterialIcons name="search" size={24} color="steelblue" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search tasks"
+          placeholderTextColor="lightgray"
+          value={search}
+          onChangeText={handleSearch}
+        />
+      </View>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -152,6 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEF7FF',
     paddingTop: 50,
     paddingHorizontal: 20,
+    justifyContent: 'space-between', // Adjust this to space elements correctly
   },
   titleContainer: {
     backgroundColor: 'steelblue',
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 23,
+    fontSize: 21,
     fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
@@ -179,6 +184,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     backgroundColor: 'white',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 15,
+    paddingBottom: 20, // Add padding to ensure it’s not hidden behind a device’s bottom bar
+  },
+  searchInput: {
+    flex: 1,
+    padding: 12,
+    borderColor: 'steelblue',
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: 'white',
+  },
+  searchIcon: {
+    marginRight: 10,
   },
   button: {
     paddingVertical: 8,
@@ -201,6 +223,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   list: {
+    flex: 1,
     marginTop: 20,
   },
   listItem: {
