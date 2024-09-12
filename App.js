@@ -7,16 +7,23 @@ export default function App() {
   const [tasks, setTasks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingKey, setEditingKey] = useState(null);
+  const [search, setSearch] = useState('');
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   const addTask = () => {
     if (task.trim()) {
-      setTasks([...tasks, { key: Math.random().toString(), value: task, completed: false, importance: 0 }]);
+      const newTask = { key: Math.random().toString(), value: task, completed: false, importance: 0 };
+      const updatedTasks = [...tasks, newTask];
+      setTasks(updatedTasks);
+      setFilteredTasks(updatedTasks);
       setTask('');
     }
   };
 
   const editTask = () => {
-    setTasks(tasks.map(t => t.key === editingKey ? { ...t, value: task } : t));
+    const updatedTasks = tasks.map(t => t.key === editingKey ? { ...t, value: task } : t);
+    setTasks(updatedTasks);
+    setFilteredTasks(updatedTasks);
     setTask('');
     setIsEditing(false);
     setEditingKey(null);
@@ -29,7 +36,9 @@ export default function App() {
   };
 
   const removeTask = (taskKey) => {
-    setTasks(tasks.filter((task) => task.key !== taskKey));
+    const updatedTasks = tasks.filter((task) => task.key !== taskKey);
+    setTasks(updatedTasks);
+    setFilteredTasks(updatedTasks);
     if (isEditing && editingKey === taskKey) {
       setTask('');
       setIsEditing(false);
@@ -38,19 +47,31 @@ export default function App() {
   };
 
   const completeTask = (taskKey) => {
-    setTasks(tasks.map(t => t.key === taskKey ? { ...t, completed: !t.completed } : t));
+    const updatedTasks = tasks.map(t => t.key === taskKey ? { ...t, completed: !t.completed } : t);
+    setTasks(updatedTasks);
+    setFilteredTasks(updatedTasks);
   };
 
   const increaseImportance = (taskKey) => {
-    setTasks(tasks.map(t => t.key === taskKey ? { ...t, importance: t.importance + 1 } : t));
+    const updatedTasks = tasks.map(t => t.key === taskKey ? { ...t, importance: t.importance + 1 } : t);
+    setTasks(updatedTasks);
+    setFilteredTasks(updatedTasks);
   };
 
   const decreaseImportance = (taskKey) => {
-    setTasks(tasks.map(t => t.key === taskKey ? { ...t, importance: Math.max(t.importance - 1, 0) } : t));
+    const updatedTasks = tasks.map(t => t.key === taskKey ? { ...t, importance: Math.max(t.importance - 1, 0) } : t);
+    setTasks(updatedTasks);
+    setFilteredTasks(updatedTasks);
+  };
+
+  const handleSearch = (text) => {
+    setSearch(text);
+    const filtered = tasks.filter((task) => task.value.toLowerCase().includes(text.toLowerCase()));
+    setFilteredTasks(filtered);
   };
 
   // Sort tasks by importance (descending) before rendering
-  const sortedTasks = [...tasks].sort((a, b) => b.importance - a.importance);
+  const sortedTasks = [...filteredTasks].sort((a, b) => b.importance - a.importance);
 
   return (
     <View style={styles.container}>
@@ -60,7 +81,7 @@ export default function App() {
       <TextInput
         style={styles.input}
         placeholder="Enter a task"
-        placeholderTextColor="lightgray" // Placeholder text color
+        placeholderTextColor="lightgray"
         value={task}
         onChangeText={setTask}
       />
@@ -70,6 +91,14 @@ export default function App() {
       >
         <Text style={styles.buttonText}>{isEditing ? "Edit Task" : "Add Task"}</Text>
       </TouchableOpacity>
+      
+      <TextInput
+        style={styles.input}
+        placeholder="Search tasks"
+        placeholderTextColor="lightgray"
+        value={search}
+        onChangeText={handleSearch}
+      />
 
       <FlatList
         style={styles.list}
@@ -120,12 +149,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EEF7FF', // Background color for the app
+    backgroundColor: '#EEF7FF',
     paddingTop: 50,
     paddingHorizontal: 20,
   },
   titleContainer: {
-    backgroundColor: 'steelblue', // Color for the title background
+    backgroundColor: 'steelblue',
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -140,16 +169,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 23,
     fontWeight: 'bold',
-    color: 'white', // Color for the title text
+    color: 'white',
     textAlign: 'center',
   },
   input: {
     padding: 12,
-    borderColor: 'steelblue', // Border color for the input
+    borderColor: 'steelblue',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: 'white', // Background color for the input
+    backgroundColor: 'white',
   },
   button: {
     paddingVertical: 8,
@@ -164,11 +193,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   addButton: {
-    backgroundColor: 'steelblue', // Color for the add button
+    backgroundColor: 'steelblue',
   },
   buttonText: {
-    color: 'white', // Color for button text
-    fontSize: 13, // Font size for buttons
+    color: 'white',
+    fontSize: 13,
     fontWeight: '600',
   },
   list: {
@@ -176,7 +205,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     padding: 15,
-    backgroundColor: '#F8EDED', // Background color for list items
+    backgroundColor: '#F8EDED',
     borderColor: 'lightgray',
     borderWidth: 2,
     borderRadius: 8,
@@ -190,11 +219,11 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   completedTask: {
-    backgroundColor: '#D5ED9F', // Background color for completed tasks
+    backgroundColor: '#D5ED9F',
   },
   completedTaskText: {
     textDecorationLine: 'line-through',
-    color: 'gray', // Text color for completed tasks
+    color: 'gray',
   },
   importanceButtons: {
     flexDirection: 'column',
@@ -211,7 +240,7 @@ const styles = StyleSheet.create({
   },
   importanceText: {
     fontSize: 14,
-    color: 'steelblue', // Color for importance button text
+    color: 'steelblue',
   },
   taskContainer: {
     flex: 1,
@@ -222,25 +251,25 @@ const styles = StyleSheet.create({
   taskText: {
     flex: 1,
     fontSize: 14,
-    color: 'black', // Color for task text
+    color: 'black',
   },
   buttonGroup: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   finishedButton: {
-    backgroundColor: '#97BE5A', // Accent color for finished button
+    backgroundColor: '#97BE5A',
   },
   unfinishedButton: {
-    backgroundColor: '#EE4E4E', // Background color for unfinished button
+    backgroundColor: '#EE4E4E',
   },
   editButton: {
-    color: 'steelblue', // Color for edit button text
+    color: 'steelblue',
     fontWeight: '600',
     marginHorizontal: 10,
   },
   removeButton: {
-    color: 'red', // Color for remove button text
+    color: 'red',
     fontWeight: '600',
     marginHorizontal: 10,
   },
