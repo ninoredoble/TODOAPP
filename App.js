@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import search icon from vector icons
+import logo from './img/LOGO.png';
 
 export default function App() {
   const [task, setTask] = useState('');
@@ -80,7 +81,7 @@ export default function App() {
       <View style={styles.titleContainer}>
           <Text style={styles.title}>REDOBLE-FELICITAS TO DO LIST</Text>
         </View>
-        <Image source={require('/Users/gratzel/Documents/GITPROJECTS/TODOAPP/img/logo.png')} style={styles.logo} />
+        <Image source={logo} style={styles.logo} />
       </View>
       <TextInput
         style={styles.input}
