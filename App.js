@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import search icon from vector icons
-import logo from './img/LOGO.png';
+import logo from './img/logo.png';
 
 export default function App() {
   const [task, setTask] = useState('');
